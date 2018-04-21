@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	Rigidbody2D rb;
+	RailMover rMover;
+	CircleCollider2D col;
 	public int maxSpeed = 4;
 	public int acceration = 3;
 	public int turnSpeed = 20;
@@ -16,12 +18,17 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
+		rMover = GetComponent<RailMover>();
+		col = GetComponent<CircleCollider2D> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (wordManager.typingEnabled == true) {
+			col.isTrigger = true;
+		}
 		if (wordManager.typingEnabled == false) {
+			col.isTrigger = false;
 			float moveX = Input.GetAxisRaw ("Horizontal");
 			float moveY = Input.GetAxisRaw ("Vertical");
 			if (moveY > 0) {
@@ -48,7 +55,20 @@ public class PlayerController : MonoBehaviour {
 			this.transform.Translate (Vector3.up * speed * Time.deltaTime);
 
 			if(Input.GetKeyDown("space")){
-				Ollie ();
+				RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up);
+				if (hit.collider != null) {
+					if (hit.transform.tag == "Pipe") {
+						Pipe pipe = hit.transform.GetComponent<Pipe> ();
+						Debug.Log ("HIT PIPE");
+						Debug.Log (pipe.canGrind(this.transform));
+						if (pipe.canGrind (this.transform)) {
+							pipeGrind (pipe.rail);
+						}
+					} else {
+						Ollie ();
+					}
+				}
+
 			}
 		}
 	}
@@ -73,9 +93,10 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	private void pipeGrind (){
+	private void pipeGrind (Rail rail){
 
-		wordManager.SpawnWordChallange (5, 9f);
+		rMover.SetRail (rail);
+		wordManager.SpawnWordChallange (4, 6f);
 
 
 	}

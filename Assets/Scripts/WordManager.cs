@@ -25,16 +25,23 @@ public class WordManager : MonoBehaviour {
 
 	private void Update(){
 		if (timer.timerUp && typingEnabled) {
-			foreach (Word word in words) {
-				word.WordFailed ();
-				words.Remove (word);
-			}
-			typingEnabled = false;
-			wordSpawner.despawnCanvas ();
-			Debug.Log ("failed");
+			ResetChallange ();
 		}
 	}
+
+	private void ResetChallange(){
+		
+		typingEnabled = false;
+		activeWord = null;
+		wordsLeft = 0;
+
+		words = null;
+		wordSpawner.despawnCanvas ();
+		hasActiveWord = false;
+		Debug.Log ("failed");
+	}
 	public void SpawnWordChallange(int numberOfWords, float timeLimit){
+		words = new List<Word>();
 		for (int i = 0; i < numberOfWords; i++) {
 			AddWord ();
 		}

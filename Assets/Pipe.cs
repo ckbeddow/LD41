@@ -5,18 +5,17 @@ using UnityEngine;
 public class Pipe : MonoBehaviour {
 
 	public Transform end;
+	public Rail rail;
 
-	void OnTrigger2DEnter(Collider2D other){
-		if (other.tag == "Player") {
-			PlayerController player = other.GetComponent<PlayerController> ();
-			player.canGrind = true;
-		}
-	}
+	public bool canGrind(Transform player){
+		Debug.Log (player.rotation.z);
 
-	void OnTrigger2DExit(Collider2D other){
-		if (other.tag == "Player") {
-			PlayerController player = other.GetComponent<PlayerController> ();
-			player.canGrind = false;
+		//NEED TO GET ROTATION IN QUATERNIAN
+		if (player.rotation.z >= 90f || player.rotation.z <= -90f) {
+			
+			return true;
 		}
+
+		return false;
 	}
 }

@@ -20,6 +20,10 @@ public class WordSpawner : MonoBehaviour {
 
 
 	public void despawnCanvas(){
+		WordDisplay[] words = wordCanvas.GetComponentsInChildren<WordDisplay>();
+		foreach (WordDisplay word in words) {
+			word.RemoveWord ();
+		}
 		wordCanvas.SetActive (false);
 	}
 }
