@@ -9,6 +9,7 @@ public class WordManager : MonoBehaviour {
 	public bool typingEnabled;
 	public Timer timer;
 	public GameManager gameManager;
+	public PlayerController player;
 
 	private bool hasActiveWord = false;
 	private Word activeWord;
@@ -39,6 +40,7 @@ public class WordManager : MonoBehaviour {
 		wordSpawner.despawnCanvas ();
 		hasActiveWord = false;
 		Debug.Log ("failed");
+		player.Failed ();
 	}
 	public void SpawnWordChallange(int numberOfWords, float timeLimit){
 		words = new List<Word>();
@@ -98,6 +100,7 @@ public class WordManager : MonoBehaviour {
 					gameManager.Score (currentScore);
 				} else {
 					Debug.Log ("Failed!");
+					player.Failed ();
 				}
 			}
 

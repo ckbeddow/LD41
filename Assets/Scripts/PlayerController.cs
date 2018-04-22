@@ -14,9 +14,13 @@ public class PlayerController : MonoBehaviour {
 	public WordManager wordManager;
 	public Trick[] tricks;
 	public bool canGrind;
+	public bool falling = false;
+	Animator anim;
+	public GameManager gameManager;
 
 	// Use this for initialization
 	void Start () {
+		anim = GetComponent<Animator> ();
 		rb = GetComponent<Rigidbody2D> ();
 		rMover = GetComponent<RailMover>();
 		col = GetComponent<CircleCollider2D> ();
@@ -24,10 +28,16 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (falling) {
+			anim.SetBool ("isFalling", true);
+		} else {
+			anim.SetBool ("isFalling", false);
+		}
+
 		if (wordManager.typingEnabled == true) {
 			col.isTrigger = true;
 		}
-		if (wordManager.typingEnabled == false) {
+		if (wordManager.typingEnabled == false && falling == false && gameManager.gameRunning == true) {
 			col.isTrigger = false;
 			float moveX = Input.GetAxisRaw ("Horizontal");
 			float moveY = Input.GetAxisRaw ("Vertical");
@@ -57,16 +67,23 @@ public class PlayerController : MonoBehaviour {
 			if(Input.GetKeyDown("space")){
 				RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up);
 				if (hit.collider != null) {
+					Debug.Log ("Hit space");
+					Debug.Log (hit.transform.tag);
 					if (hit.transform.tag == "Pipe") {
 						Pipe pipe = hit.transform.GetComponent<Pipe> ();
 						Debug.Log ("HIT PIPE");
-						Debug.Log (pipe.canGrind(this.transform));
+						Debug.Log (pipe.canGrind (this.transform));
 						if (pipe.canGrind (this.transform)) {
 							pipeGrind (pipe.rail);
 						}
-					} else {
-						Ollie ();
+					} else if (hit.transform.tag == "HalfPipe") {
+						Pipe pipe = hit.transform.GetComponent<Pipe> ();
+						if (pipe.canGrind (this.transform)) {
+							halfPipeFlip (pipe.rail);
+						}
 					}
+				}else {
+					Ollie ();
 				}
 
 			}
@@ -99,5 +116,19 @@ public class PlayerController : MonoBehaviour {
 		wordManager.SpawnWordChallange (4, 6f);
 
 
+	}
+
+	private void halfPipeFlip (Rail rail){
+		rMover.SetRail (rail);
+		wordManager.SpawnWordChallange (6, 9f);
+	}
+
+	public void Failed (){
+		Debug.Log ("failed");
+
+		falling = true;
+
+		// Failure spash 
+		gameManager.Failed ();
 	}
 }
