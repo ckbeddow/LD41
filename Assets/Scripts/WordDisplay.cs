@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WordDisplay : MonoBehaviour {
 
-	public Text text;
+	public TextMeshProUGUI text;
 
 	public void SetWord(string word){
 		text.text = word;

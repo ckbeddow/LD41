@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WordManager : MonoBehaviour {
 
 	public List<Word> words;
+	public TextMeshProUGUI trickName;
 	public WordSpawner wordSpawner;
 	public bool typingEnabled;
 	public Timer timer;
@@ -42,7 +44,7 @@ public class WordManager : MonoBehaviour {
 		Debug.Log ("failed");
 		player.Failed ();
 	}
-	public void SpawnWordChallange(int numberOfWords, float timeLimit){
+	public void SpawnWordChallange(int numberOfWords, float timeLimit, string name){
 		words = new List<Word>();
 		for (int i = 0; i < numberOfWords; i++) {
 			AddWord ();
@@ -51,6 +53,7 @@ public class WordManager : MonoBehaviour {
 		SetTimer (timeLimit);
 		wordsLeft = numberOfWords;
 		typingEnabled = true;
+		trickName.text = name;
 
 	}
 

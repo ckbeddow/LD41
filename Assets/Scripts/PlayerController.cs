@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	Rigidbody2D rb;
+	//Rigidbody2D rb;
 	RailMover rMover;
 	CircleCollider2D col;
 	public int maxSpeed = 4;
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		anim = GetComponent<Animator> ();
-		rb = GetComponent<Rigidbody2D> ();
+		//rb = GetComponent<Rigidbody2D> ();
 		rMover = GetComponent<RailMover>();
 		col = GetComponent<CircleCollider2D> ();
 	}
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour {
 			this.transform.Translate (Vector3.up * speed * Time.deltaTime);
 
 			if(Input.GetKeyDown("space")){
-				RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up);
+				RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up, 1f);
 				if (hit.collider != null) {
 					Debug.Log ("Hit space");
 					Debug.Log (hit.transform.tag);
@@ -95,12 +95,14 @@ public class PlayerController : MonoBehaviour {
 	//Probably should fix if going to continue with this game after the jam
 
 	private void Ollie (){
-
+		
 		//perhaps this needs a corouti
 		//This is the most simple trick that is performed with a jump in open area. 
 		//Default trick
 		//3 word challange
-		wordManager.SpawnWordChallange (3, 5f);
+		wordManager.SpawnWordChallange (3, 5f, "Ollie");
+		anim.SetTrigger ("Ollie");
+
 		//Time Limit here
 		//Start countdown
 
@@ -113,14 +115,14 @@ public class PlayerController : MonoBehaviour {
 	private void pipeGrind (Rail rail){
 
 		rMover.SetRail (rail);
-		wordManager.SpawnWordChallange (4, 6f);
+		wordManager.SpawnWordChallange (4, 6f, "Railslide");
 
 
 	}
 
 	private void halfPipeFlip (Rail rail){
 		rMover.SetRail (rail);
-		wordManager.SpawnWordChallange (6, 9f);
+		wordManager.SpawnWordChallange (6, 9f, "Half Pipe Spin");
 	}
 
 	public void Failed (){

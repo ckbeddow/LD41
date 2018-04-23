@@ -17,7 +17,7 @@ public class WordGenerator : MonoBehaviour {
 		"sin", "box", "pies", "awesome", "root", "available", "sleet", "wax",
 		"boring", "smash", "anger", "tasty", "spare", "tray", "daffy", "scarce",
 		"account", "spot", "thought", "distinct", "nimble", "practise", "cream",
-		"ablaze", "thoughtless", "love", "verdict", "giant" 
+		"ablaze", "thoughtless", "love", "verdict", "giant" ,"airwalk", "backslide", "melongrab", "bail", "bank", "benihana","bigspin","boardslide", "burly", "bust", "carve", "casperflip", "deck", "darkslide", "fakie", "footie", "gnarly", "goofy", "grind", "halfpipe", "ollie", "indygrab", "judo", "invert"
 	};
 	public static string GetRandomWord(){
 		int randomIndex = Random.Range (0, wordList.Length);

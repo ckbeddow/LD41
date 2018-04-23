@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour {
 
-	public Text scoreText;
-	public Text timerText;
+	public TextMeshProUGUI scoreText;
+	public TextMeshProUGUI timerText;
 	public int score = 0;
 	public float timeRemaining;
 	public float startingTime;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	public TextMeshProUGUI successText;
 	public Animator successTextAnim;
 	public GameObject endScreen;
+	public GameObject pauseScreen;
 
 	public bool gameRunning = false;
 
@@ -32,6 +34,12 @@ public class GameManager : MonoBehaviour {
 	private void Update(){
 
 		if (gameRunning) {
+
+			if (Input.GetKeyDown(KeyCode.Escape)) {
+				Pause ();
+
+			}
+
 			timeRemaining -= Time.deltaTime;
 			if (timeRemaining <= 0) {
 				timeRemaining = 0;
@@ -55,6 +63,21 @@ public class GameManager : MonoBehaviour {
 
 	public void Failed(){
 		failedTextAnim.SetTrigger ("FailedText");
+	}
+
+	public void ReturnToMenu(){
+		
+		SceneManager.LoadScene (0);
+
+	}
+	public void Pause (){
+		gameRunning = false;
+		pauseScreen.SetActive (true);
+	}
+
+	public void UnPause(){
+		gameRunning = true;
+		pauseScreen.SetActive (false);
 	}
 
 }

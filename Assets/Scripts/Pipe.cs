@@ -9,9 +9,10 @@ public class Pipe : MonoBehaviour {
 	public bool north;
 
 	public bool canGrind(Transform player){
-		Debug.Log (player.rotation.z);
+		//Debug.Log (player.rotation.z);
 
-		//NEED TO GET ROTATION IN QUATERNIAN
+		//Needs work on if a certain direction can activate the grind
+		/*
 		if (north) {
 			if (player.rotation.z >= 0.7f || player.rotation.z <= -0.7f) {
 			
@@ -25,5 +26,7 @@ public class Pipe : MonoBehaviour {
 		}
 
 		return false;
+		*/
+		return true;
 	}
 }
